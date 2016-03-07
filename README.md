@@ -1,22 +1,15 @@
 # jkm_practical_machine_learning_writeup
-# Project write-up for practical machine learning course
+Project write-up for practical machine learning course
 
-# installing packages 
+# installing packages and libraries
 install.packages("caret")
 install.packages("lattice")
 install.packages("ggplot2")
-
-# loading libraries for analysis 
 library(ggplot2)
 library(lattice)
 library(caret)
 
-# loading packages and installing libraries for parallel processing.  This expedited the computation time of my training model.
-library(parallel)
-install.packages("doParallel")
-library(doParallel)
-
-# loading training CSV test set from the URL provided on the course website
+# Loading the training set 
 d1<-read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv")
 
 # dividing the training data into two dataframes--one for training the model and the other for testing the predictions
@@ -44,7 +37,11 @@ train1<-train1[c(-15)]
 train1<-train1[c(-24)]
 train1<-train1[c(-41)]
 
-# establishing the conditions to permit parallel processing for the training model
+# Using parallel processing when training the model
+I installed and loaded packages for parallel processing expedite the computation time. 
+library(parallel)
+install.packages("doParallel")
+library(doParallel)
 clus<-makeCluster(detectCores()-1)
 registerDoParallel(clus)
 
