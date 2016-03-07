@@ -153,7 +153,7 @@ pred    A    B    C    D    E
    E    0    0    0    0 1441
 ```
 ##imga
-![img](jkm_practical_machine_learning_writeup/test.data.predictions.jpeg)
+![img](https://github.com/jmaron86/jkm_practical_machine_learning_writeup/test.data.predictions.jpeg)
 
 ##confusion matrix
 ```
