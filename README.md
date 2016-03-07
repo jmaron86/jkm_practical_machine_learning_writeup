@@ -152,6 +152,9 @@ pred    A    B    C    D    E
    D    0    1    1 1280    1
    E    0    0    0    0 1441
 ```
+##imga
+
+
 ##confusion matrix
 ```
 confusionMatrix(pred,test1$classe)
