@@ -1,4 +1,4 @@
-# jkm_practical_machine_learning_writeup
+# jkm practical machine learning writeup
 
 ## installing packages and libraries
 The following packages and libraries were used to divide, train, visualize and explain the data.
