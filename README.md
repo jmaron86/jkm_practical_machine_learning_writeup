@@ -17,7 +17,7 @@ inTrain<-createDataPartition(y=d1$classe,p=0.6,list=FALSE)
 train1<-d1[inTrain,];test1<-d1[-inTrain,]
 
 # setting all blank data values to "NA" and then removing all columns with over 80% of values with "NA"
-train1[train1==""]<-NA
+train1[train1==""]<-NA|
 train1<-train1[,colSums(is.na(train1))<nrow(train1)*0.8]
 
 train1<-train1[c(-1)]
