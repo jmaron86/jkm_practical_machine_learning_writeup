@@ -1,7 +1,7 @@
 # jkm_practical_machine_learning_writeup
-Project write-up for practical machine learning course
 
-# installing packages and libraries
+
+## installing packages and libraries
 ```
 install.packages("caret")
 install.packages("lattice")
@@ -10,28 +10,28 @@ library(ggplot2)
 library(lattice)
 library(caret)
 ```
-# Loading the training set
+## Loading the training set
 ```
 d1<-read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv")
 ```
-# dividing the training data into two dataframes
+## dividing the training data into two dataframes
 **One dataframe is used for training the model and the other for testing the predictive nature of the model.**
 
 ```
 inTrain<-createDataPartition(y=d1$classe,p=0.6,list=FALSE)
 train1<-d1[inTrain,];test1<-d1[-inTrain,]
 ```
-# Scrubbing and refining the training data
-######Accounting for columns with mostly empty values
+## Scrubbing and refining the training data
+#####Accounting for columns with mostly empty values
 some text
 ```
 train1[train1==""]<-NA
 ```
-##Removing columns with high incidence of "NA"
+#####Removing columns with high incidence of "NA"
 ```
 train1<-train1[,colSums(is.na(train1))<nrow(train1)*0.8]
 ```
-##Miscellaneous adjustments to data
+#####Miscellaneous adjustments to data
 ```
 train1<-train1[c(-1)]
 train1<-train1[c(-4)]
@@ -40,7 +40,7 @@ train1<-train1[c(-4)]
 train1$user_name<-as.numeric(train1$user_name)
 train1$new_window<-as.numeric(train1$new_window)
 ```
-##Identifying highly correlating variables and pruning dataset
+#####Identifying highly correlating variables and pruning dataset
 ```
 tr2Corr<-cor(train2)
 findCorrelation(tr2Corr, cutoff = .90, verbose = FALSE)
@@ -53,11 +53,11 @@ train1<-train1[c(-15)]
 train1<-train1[c(-24)]
 train1<-train1[c(-41)]
 ```
-##Removing the outcome variable
+#####Removing the outcome variable
 ```
 train2<-train1[c(-58)]
 ```
-# Setting up parallel processing before training the model
+## Setting up parallel processing before training the model
 *I installed and loaded packages for parallel processing to expedite the computation time.* 
 ```
 library(parallel)
@@ -66,19 +66,19 @@ library(doParallel)
 clus<-makeCluster(detectCores()-1)
 registerDoParallel(clus)
 ```
-# Designing a cross-validation training method 
+## Designing a cross-validation training method 
 *that will select the highest accuracy out of 5 folds.  Parallel processing is permitted* 
 ```
 fC<-trainControl(method="cv",number=5,allowParallel=TRUE)
 ```
-# Applying a random forest training model 
+## Applying a random forest training model 
 *to the training data using the training control method shown above.*
 ```
 modFit<-train(classe~.,data=train1,method="rf",trControl=fC,prox=TRUE)  
 modFit
 varImp(modFit)
 ```
-# applying same changes to test dataframe as the training dataframe
+## applying same changes to test dataframe as the training dataframe
 ```
 test1[test1==""]<-NA
 test1<-test1[,colSums(is.na(test1))<nrow(test1)*0.8]
@@ -93,7 +93,7 @@ test1<-test1[c(-24)]
 test1<-test1[c(-41)]
 ```
                                      
-#predictions
+##predictions
 ```
 pred<-predict(modFit,test1)
 test1$predRight<-pred==test1$classe
@@ -101,7 +101,7 @@ table(pred,test1$classe)
 qplot(yaw_belt,pitch_forearm,,colour=predRight,data=test1,main="test data predictions")
 confusionMatrix(pred,test1$classe)
 ```
-#training accuracy using random forest method
+##training accuracy using random forest method
 ```
 Resampling results across tuning parameters:
 
@@ -114,7 +114,7 @@ Resampling results across tuning parameters:
 Accuracy was used to select the optimal model using  the largest value.
 The final value used for the model was mtry = 27. 
 ```
-# variable Importance in random forest training model
+## variable Importance in random forest training model
 ```
 rf variable importance
 
@@ -134,7 +134,7 @@ roll_dumbbell          9.945
 ```
 
 
-#Out of Sample Error
+##Out of Sample Error
 The table below illustrates the overall accuracy of our predictions for the classe variable based on our training model and test data set
 ```
 pred    A    B    C    D    E
@@ -144,7 +144,7 @@ pred    A    B    C    D    E
    D    0    1    1 1280    1
    E    0    0    0    0 1441
 ```
-#confusion matrix
+##confusion matrix
 ```
 Overall Statistics
                                           
