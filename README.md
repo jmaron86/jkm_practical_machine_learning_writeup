@@ -10,10 +10,12 @@ library(ggplot2)
 library(lattice)
 library(caret)
 ```
-# Loading the training set 
+# Loading the training set
+```
 d1<-read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv")
-
+```
 # dividing the training data into two dataframes--one for training the model and the other for testing the predictions
+
 ```
 inTrain<-createDataPartition(y=d1$classe,p=0.6,list=FALSE)
 train1<-d1[inTrain,];test1<-d1[-inTrain,]
@@ -27,15 +29,19 @@ train1<-train1[,colSums(is.na(train1))<nrow(train1)*0.8]
 train1<-train1[c(-1)]
 train1<-train1[c(-4)]
 ```
+```
 train1$user_name<-as.numeric(train1$user_name)
 train1$new_window<-as.numeric(train1$new_window)
 ```
+
 ```
 train2<-train1[c(-58)]
+```
 ```
 tr2Corr<-cor(train2)
 findCorrelation(tr2Corr, cutoff = .90, verbose = FALSE)
 names(train2)[c(6,13,14,15,24,41)] 
+```
 ```
 train1<-train1[c(-6)]
 train1<-train1[c(-14)]
@@ -86,7 +92,7 @@ qplot(yaw_belt,pitch_forearm,,colour=predRight,data=test1,main="test data predic
 confusionMatrix(pred,test1$classe)
 ```
 #training accuracy using random forest method
-
+```
 Resampling results across tuning parameters:
 
  | mtry | Accuracy | Kappa | Accuracy |    SD   | 
@@ -97,9 +103,9 @@ Resampling results across tuning parameters:
 
 Accuracy was used to select the optimal model using  the largest value.
 The final value used for the model was mtry = 27. 
-
+```
 # variable Importance in random forest training model
-
+```
 rf variable importance
 
   only 10 most important variables shown (out of 52)
@@ -115,21 +121,21 @@ magnet_dumbbell_y     15.679
 total_accel_belt      15.018
 magnet_belt_z         10.935
 roll_dumbbell          9.945
-
+```
 
 
 #Out of Sample Error
 The table below illustrates the overall accuracy of our predictions for the classe variable based on our training model and test data set
-
+```
 pred    A    B    C    D    E
    A 2232    3    0    0    0
    B    0 1514    3    0    0
    C    0    0 1364    6    0
    D    0    1    1 1280    1
    E    0    0    0    0 1441
-
+```
 #confusion matrix
-
+```
 Overall Statistics
                                           
                Accuracy : 0.9981          
@@ -151,5 +157,5 @@ Prevalence             0.2845   0.1935   0.1744   0.1639   0.1838
 Detection Rate         0.2845   0.1930   0.1738   0.1631   0.1837
 Detection Prevalence   0.2849   0.1933   0.1746   0.1635   0.1837
 Balanced Accuracy      0.9997   0.9984   0.9981   0.9974   0.9997
-
+```
 
