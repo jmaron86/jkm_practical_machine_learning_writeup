@@ -1,7 +1,7 @@
 # jkm_practical_machine_learning_writeup
 
-
 ## installing packages and libraries
+The following packages and libraries were used to divide, train, visualize and explain the data.
 ```
 install.packages("caret")
 install.packages("lattice")
@@ -15,13 +15,15 @@ library(caret)
 d1<-read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv")
 ```
 ## dividing the training data into two dataframes
-**One dataframe is used for training the model and the other for testing the predictive nature of the model.**
+One dataframe is used for training the model and the other for testing the predictive nature of the model.
+60% of the data is allocated to training.
 
 ```
 inTrain<-createDataPartition(y=d1$classe,p=0.6,list=FALSE)
 train1<-d1[inTrain,];test1<-d1[-inTrain,]
 ```
 ## Scrubbing and refining the training data
+A visual inspection of the CSV training data revealed a significant portion of the 160 columns to be have predominantly blank values or have a preponderance of "NA".  This was my approach to cleaning the data and preparing it for a training model.
 #####Accounting for columns with mostly empty values
 some text
 ```
