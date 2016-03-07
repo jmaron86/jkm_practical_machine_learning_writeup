@@ -75,47 +75,19 @@ fC<-trainControl(method="cv",number=5,allowParallel=TRUE)
 *to the training data using the training control method shown above.*
 ```
 modFit<-train(classe~.,data=train1,method="rf",trControl=fC,prox=TRUE)  
-modFit
+```
+##In-sample error rate
+```
+pred0    A    B    C    D    E
+    A 3348    0    0    0    0
+    B    0 2279    0    0    0
+    C    0    0 2054    0    0
+    D    0    0    0 1930    0
+    E    0    0    0    0 2165
+```
+##Importance of variables in training model
+```
 varImp(modFit)
-```
-## applying same changes to test dataframe as the training dataframe
-```
-test1[test1==""]<-NA
-test1<-test1[,colSums(is.na(test1))<nrow(test1)*0.8]
-test1<-test1[c(-1)]
-test1<-test1[c(-4)]
-test1$user_name<-as.numeric(test1$user_name)
-test1$new_window<-as.numeric(test1$new_window)
-test1<-test1[c(-6)]
-test1<-test1[c(-14)]
-test1<-test1[c(-15)]
-test1<-test1[c(-24)]
-test1<-test1[c(-41)]
-```
-                                     
-##predictions
-```
-pred<-predict(modFit,test1)
-test1$predRight<-pred==test1$classe
-table(pred,test1$classe)
-qplot(yaw_belt,pitch_forearm,,colour=predRight,data=test1,main="test data predictions")
-confusionMatrix(pred,test1$classe)
-```
-##training accuracy using random forest method
-```
-Resampling results across tuning parameters:
-
- | mtry | Accuracy | Kappa | Accuracy |    SD   | 
- | ---- | --------- | ----- | -------- | ------- |
- |  2   |   0.994   | 0.992 | 0.001511 | 0.00191 | 
- |  27  |   0.999   | 0.998 | 0.00076  | 0.000961|      
- |  52  |   0.995   | 0.994 | 0.00202  | 0.00256 |
-
-Accuracy was used to select the optimal model using  the largest value.
-The final value used for the model was mtry = 27. 
-```
-## variable Importance in random forest training model
-```
 rf variable importance
 
   only 10 most important variables shown (out of 52)
@@ -132,8 +104,42 @@ total_accel_belt      15.018
 magnet_belt_z         10.935
 roll_dumbbell          9.945
 ```
+##training accuracy using random forest method
+```
+Resampling results across tuning parameters:
 
+ | mtry | Accuracy | Kappa | Accuracy |    SD   | 
+ | ---- | --------- | ----- | -------- | ------- |
+ |  2   |   0.994   | 0.992 | 0.001511 | 0.00191 | 
+ |  27  |   0.999   | 0.998 | 0.00076  | 0.000961|      
+ |  52  |   0.995   | 0.994 | 0.00202  | 0.00256 |
 
+Accuracy was used to select the optimal model using  the largest value.
+The final value used for the model was mtry = 27. 
+```
+## applying same changes to test dataframe as the training dataframe
+```
+test1[test1==""]<-NA
+test1<-test1[,colSums(is.na(test1))<nrow(test1)*0.8]
+test1<-test1[c(-1)]
+test1<-test1[c(-4)]
+test1$user_name<-as.numeric(test1$user_name)
+test1$new_window<-as.numeric(test1$new_window)
+test1<-test1[c(-6)]
+test1<-test1[c(-14)]
+test1<-test1[c(-15)]
+test1<-test1[c(-24)]
+test1<-test1[c(-41)]
+```
+                                     
+##Making predictions on the test data
+```
+pred<-predict(modFit,test1)
+test1$predRight<-pred==test1$classe
+table(pred,test1$classe)
+qplot(yaw_belt,pitch_forearm,,colour=predRight,data=test1,main="test data predictions")
+confusionMatrix(pred,test1$classe)
+```
 ##Out of Sample Error
 The table below illustrates the overall accuracy of our predictions for the classe variable based on our training model and test data set
 ```
@@ -145,6 +151,9 @@ pred    A    B    C    D    E
    E    0    0    0    0 1441
 ```
 ##confusion matrix
+```
+confusionMatrix(pred,test1$classe)
+```
 ```
 Overall Statistics
                                           
