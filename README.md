@@ -22,7 +22,8 @@ inTrain<-createDataPartition(y=d1$classe,p=0.6,list=FALSE)
 train1<-d1[inTrain,];test1<-d1[-inTrain,]
 ```
 # Scrubbing and refining the training data
-####Accounting for columns with mostly empty values
+######Accounting for columns with mostly empty values
+some text
 ```
 train1[train1==""]<-NA
 ```
