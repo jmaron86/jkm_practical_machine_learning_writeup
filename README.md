@@ -133,13 +133,13 @@ Overall Statistics
                  95% CI : (0.9968, 0.9989)
     No Information Rate : 0.2845          
     P-Value [Acc > NIR] : < 2.2e-16       
-                                          
+                                            
                   Kappa : 0.9976          
  Mcnemar's Test P-Value : NA              
 
 Statistics by Class:
-
-                     Class: A Class: B Class: C Class: D Class: E
+                            
+                     Class: A  Class: B Class: C Class: D Class: E
 Sensitivity            1.0000   0.9974   0.9971   0.9953   0.9993
 Specificity            0.9995   0.9995   0.9991   0.9995   1.0000
 Pos Pred Value         0.9987   0.9980   0.9956   0.9977   1.0000
