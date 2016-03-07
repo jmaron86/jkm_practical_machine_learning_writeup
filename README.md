@@ -152,11 +152,7 @@ pred    A    B    C    D    E
    D    0    1    1 1280    1
    E    0    0    0    0 1441
 ```
-##imga
-
-![img](https://github.com/jmaron86/jkm_practical_machine_learning_writeup/test.data.predictions.png)
-
-##confusion matrix
+##Checking overall accuracy with confusion matrix
 ```
 confusionMatrix(pred,test1$classe)
 ```
