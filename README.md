@@ -14,17 +14,23 @@ library(caret)
 ```
 d1<-read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv")
 ```
-# dividing the training data into two dataframes--one for training the model and the other for testing the predictions
+# dividing the training data into two dataframes
+**One dataframe is used for training the model and the other for testing the predictive nature of the model.**
 
 ```
 inTrain<-createDataPartition(y=d1$classe,p=0.6,list=FALSE)
 train1<-d1[inTrain,];test1<-d1[-inTrain,]
 ```
-# setting all blank data values to "NA" and then removing all columns with over 80% of values with "NA"
+# Scrubbing and refining the training data
+##Accounting for columns with mostly empty values
 ```
-train1[train1==""]<-NA|
+train1[train1==""]<-NA
+```
+##Removing columns with high incidence of "NA"
+```
 train1<-train1[,colSums(is.na(train1))<nrow(train1)*0.8]
 ```
+##Miscellaneous adjustments to data
 ```
 train1<-train1[c(-1)]
 train1<-train1[c(-4)]
@@ -33,10 +39,7 @@ train1<-train1[c(-4)]
 train1$user_name<-as.numeric(train1$user_name)
 train1$new_window<-as.numeric(train1$new_window)
 ```
-
-```
-train2<-train1[c(-58)]
-```
+##Identifying highly correlating variables and pruning dataset
 ```
 tr2Corr<-cor(train2)
 findCorrelation(tr2Corr, cutoff = .90, verbose = FALSE)
@@ -49,8 +52,12 @@ train1<-train1[c(-15)]
 train1<-train1[c(-24)]
 train1<-train1[c(-41)]
 ```
-# Using parallel processing when training the model
-I installed and loaded packages for parallel processing expedite the computation time. 
+##Removing the outcome variable
+```
+train2<-train1[c(-58)]
+```
+# Setting up parallel processing before training the model
+*I installed and loaded packages for parallel processing to expedite the computation time.* 
 ```
 library(parallel)
 install.packages("doParallel")
@@ -58,11 +65,13 @@ library(doParallel)
 clus<-makeCluster(detectCores()-1)
 registerDoParallel(clus)
 ```
-# setting a cross-validation training method that will select the highest accuracy out of 5 folds.  Parallel processing is permitted 
+# Designing a cross-validation training method 
+*that will select the highest accuracy out of 5 folds.  Parallel processing is permitted* 
 ```
 fC<-trainControl(method="cv",number=5,allowParallel=TRUE)
 ```
-# Applying a random forest training model to the training data using the training control method shown above. 
+# Applying a random forest training model 
+*to the training data using the training control method shown above.*
 ```
 modFit<-train(classe~.,data=train1,method="rf",trControl=fC,prox=TRUE)  
 modFit
