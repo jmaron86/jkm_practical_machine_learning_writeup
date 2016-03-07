@@ -79,7 +79,7 @@ confusionMatrix(pred,test1$classe)
 Resampling results across tuning parameters:
 
  | mtry |  Accuracy | Kappa | Accuracy |    SD   | 
- |------|-----------|-------|----------|---------|
+ | ---- | --------- | ----- | -------- | ------- |
  |  2   |   0.994   | 0.992 | 0.001511 | 0.00191 | 
  |  27  |   0.999   | 0.998 | 0.00076  | 0.000961|      
  |  52  |   0.995   | 0.994 | 0.00202  | 0.00256 |
